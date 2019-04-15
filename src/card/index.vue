@@ -1,41 +1,55 @@
 <template>
   <div>
-    <div class="title tc">粉色跑用户报名情况</div>
+    <div class="title tc">青少年羽毛球比赛报名情况</div>
     <ul class="total-count">
-      <li class="tc">共有{{userList.length}}人报名</li>
-      <li class="tc">{{adultList.length}}个家长, {{childList.length}}个儿童</li>
+      <li class="row1 tc">共有{{allList.length}}次报名</li>
+      <li
+        class="tc"
+      >单打报名{{singleList.length}}次, 双打报名{{coupeList.length}}次，家庭报名{{familyList.length}}次</li>
     </ul>
     <el-tabs class="main-tab" v-model="displayMode">
-      <el-tab-pane name="adult" label="成人">
-        <el-table class="user-table" stripe :data="adultList">
+      <el-tab-pane name="single" label="单人报名">
+        <el-table class="user-table" stripe :data="singleList">
           <el-table-column width="125px" prop="name" label="姓名"></el-table-column>
           <el-table-column width="75px" prop="age" label="年龄"></el-table-column>
           <el-table-column prop="idCard" label="身份证号"></el-table-column>
           <el-table-column prop="phone" label="电话"></el-table-column>
-          <el-table-column prop="orderTime" label="报名时间"></el-table-column>
-          <el-table-column width="100px" prop="orderType" label="报名类型"></el-table-column>
-          <el-table-column width="100px" prop="price" label="价格"></el-table-column>
+          <el-table-column width="125px" prop="type" label="报名类型"></el-table-column>
+          <el-table-column prop="groups" label="组别"></el-table-column>
+          <!-- <el-table-column width="100px" prop="price" label="价格"></el-table-column> -->
         </el-table>
       </el-tab-pane>
-      <el-tab-pane name="child" label="儿童">
-        <el-table class="user-table" stripe :data="childList">
-          <el-table-column width="150px" prop="name" label="姓名"></el-table-column>
-          <el-table-column width="125px" prop="age" label="年龄"></el-table-column>
+      <el-tab-pane name="coupe" label="双人报名">
+        <el-table class="user-table" stripe :data="coupeList">
+          <el-table-column width="125px" prop="name" label="姓名"></el-table-column>
+          <el-table-column width="75px" prop="age" label="年龄"></el-table-column>
           <el-table-column prop="idCard" label="身份证号"></el-table-column>
-          <el-table-column prop="orderTime" label="报名时间"></el-table-column>
-          <el-table-column width="150px" prop="parentName" label="家长"></el-table-column>
+          <el-table-column prop="phone" label="电话"></el-table-column>
+          <el-table-column width="125px" prop="type" label="报名类型"></el-table-column>
+          <el-table-column prop="groups" label="组别"></el-table-column>
+          <!-- <el-table-column width="100px" prop="price" label="价格"></el-table-column> -->
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane name="family" label="家庭报名">
+        <el-table class="user-table" stripe :data="familyList">
+          <el-table-column width="125px" prop="name" label="姓名"></el-table-column>
+          <el-table-column width="75px" prop="age" label="年龄"></el-table-column>
+          <el-table-column prop="idCard" label="身份证号"></el-table-column>
+          <el-table-column prop="phone" label="电话"></el-table-column>
+          <el-table-column width="125px" prop="type" label="报名类型"></el-table-column>
+          <el-table-column prop="groups" label="组别"></el-table-column>
+          <!-- <el-table-column width="100px" prop="price" label="价格"></el-table-column> -->
         </el-table>
       </el-tab-pane>
       <el-tab-pane name="all" label="全部">
-        <el-table class="user-table" stripe :data="userList">
+        <el-table class="user-table" stripe :data="allList">
           <el-table-column width="125px" prop="name" label="姓名"></el-table-column>
           <el-table-column width="75px" prop="age" label="年龄"></el-table-column>
           <el-table-column prop="idCard" label="身份证号"></el-table-column>
           <el-table-column prop="phone" label="电话"></el-table-column>
-          <el-table-column prop="orderTime" label="报名时间"></el-table-column>
-          <el-table-column width="125px" prop="orderType" label="报名类型"></el-table-column>
-          <el-table-column width="100px" prop="price" label="价格"></el-table-column>
-          <el-table-column width="125px" prop="parentName" label="家长"></el-table-column>
+          <el-table-column width="125px" prop="type" label="报名类型"></el-table-column>
+          <el-table-column prop="groups" label="组别"></el-table-column>
+          <!-- <el-table-column width="100px" prop="price" label="价格"></el-table-column> -->
         </el-table>
       </el-tab-pane>
     </el-tabs>！
@@ -43,79 +57,69 @@
 </template>
 <script>
 const participantMap = {};
-const prices = [88, 118];
+// const prices = [88, 118];
 
 export default {
   data() {
     return {
-      userList: [],
-      childList: [],
-      adultList: [],
-      displayMode: "adult",
-      totalEarning: 0,
-      ages: [{ start: 0, end: 10 }],
-      times: [
-        { start: "2019-02-25 00:00:00", end: "2019-02-25 23:59:59" },
-        { start: "2019-02-27 00:00:00", end: "2019-02-27 23:59:59" }
+      allList: [],
+      coupeList: [],
+      singleList: [],
+      familyList: [],
+      displayMode: "single",
+      ages: [
+        // { start: 0, end: 10 }
       ],
-      parentNum: 0,
-      childNum: 0
+      times: [
+        // { start: "2019-02-25 00:00:00", end: "2019-02-25 23:59:59" },
+      ]
     };
   },
   methods: {
-    checkToday() {},
     processData(arr) {
       if (arr instanceof Array) {
         const refinedData = arr.map(_ => {
-          // 单挑数据的结构改造
           const newDatum = {
             name: _.name,
             phone: _.phone,
-            orderTime: _.orderTime,
+            type: _.type,
+            groups: _.groups,
             age: _.chileAge || _.age,
-            idCard: _.childIdCard || _.idCard,
-            parentIdCard: _.parentIdCard || "",
-            parentName: _.parentName || ""
+            idCard: _.childIdCard || _.idCard
           };
-          // 存入map
-          return (participantMap[newDatum.idCard] = newDatum);
+          participantMap[newDatum.idCard] = newDatum;
+          return newDatum;
         });
-        // 修正儿童数据中缺失的字段
+
         refinedData.forEach(_ => {
-          if (_.parentIdCard) {
-            // 儿童
-            // 找到其家长，拼装 orderTime 和 parent
-            const parent = participantMap[_.parentIdCard];
-            if (parent) {
-              parent.price = prices[1];
-              // this.totalEarning += prices[1];
-              parent.orderType = "亲子报名";
-              _.parent = parent;
-              _.orderTime = parent.orderTime;
-            }
-            // 构建儿童表
-            this.childList.push(_);
+          this.allList.push(_);
+          if (_.type == "单打") {
+            // _.price = prices[1];
+            this.singleList.push(_);
+          } else if (_.type == "双打") {
+            // _.price = prices[0];
+            this.coupeList.push(_);
           } else {
-            // 成人
-            _.price = prices[0];
-            // this.totalEarning += prices[0];
-            _.orderType = "单人报名";
-            // 构建成人表
-            this.adultList.push(_);
+            // _.price = prices[0];
+            this.familyList.push(_);
           }
         });
-        return refinedData;
-      } else {
-        return [];
       }
     },
     getEnrollData(start = 1) {
-      this.$http.post("/joinlist2.php", { start }).then(res => {
+      this.$http.post("/joinlist_bm.php", { start }).then(res => {
         if (res && res.status == 200 && res.data && res.data.length > 0) {
-          this.userList.push(...this.processData(res.data));
+          this.processData(res.data);
           this.getEnrollData(start + 20);
         }
       });
+    },
+    initTableData() {
+      this.allList.splice(0);
+      this.singleList.splice(0);
+      this.coupeList.splice(0);
+      this.familyList.splice(0);
+      this.getEnrollData();
     }
   },
   computed: {
@@ -133,12 +137,7 @@ export default {
     }
   },
   created() {
-    const params = {
-      start: 100
-      // ages: this.ageStr,
-      // times: this.timeStr
-    };
-    this.getEnrollData();
+    this.initTableData();
   }
 };
 </script>
@@ -146,12 +145,16 @@ export default {
 .title {
   font-size: 24px;
   font-weight: bold;
-  line-height: 3;
+  line-height: 3.2;
 }
 .total-count {
+  .row1 {
+    // font-weight: bold;
+    font-size: 16px;
+  }
   li {
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 2;
   }
 }
 .main-tab {
