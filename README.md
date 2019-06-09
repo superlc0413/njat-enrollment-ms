@@ -1,4 +1,4 @@
-# fsp-ms
+# njat-enrollment-ms
 
 > A Vue.js project
 
