@@ -1,20 +1,19 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Index from '@/card/index'
+import Vue from "vue";
+import Router from "vue-router";
+import Index from "@/card/index";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'index',
-      component: Index
+      path: "/",
+      redirect: "/index"
     },
     {
-      path: 'index',
-      name: 'index',
+      path: "/index",
+      name: "index",
       component: Index
     }
   ]
-})
+});
