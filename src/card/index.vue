@@ -49,7 +49,7 @@
           <el-table-column prop="pm" width="130px" label="下午课程"></el-table-column>
         </el-table>
       </el-tab-pane>
-    </el-tabs>！
+    </el-tabs>
   </div>
 </template>
 <script>
