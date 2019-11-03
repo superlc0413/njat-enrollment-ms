@@ -100,7 +100,7 @@ export default {
     getEnrollData(start = 0) {
       const params = { start };
       this.$http.get(`/joinlist2.php`, { params }).then(res => {
-        if (res && res.status == 200 && res.data && res.data.length > 0) {
+        if (res && res.status == 200 && res.data && res.data.length) {
           this.processData(res.data);
           this.getEnrollData(start + 20);
         }
